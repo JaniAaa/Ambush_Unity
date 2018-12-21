@@ -1,0 +1,26 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CarForwards : MonoBehaviour {
+	private Rigidbody rb;
+	public List<NewAxleInfo> axleInfos;
+
+	void Start () {
+		rb = gameObject.GetComponent<Rigidbody>();
+	}
+
+	void FixedUpdate () {
+		//rb.AddForce(transform.forward * 100);
+		axleInfo.leftWheel.motorTorque = 10;
+		axleInfo.rightWheel.motorTorque = 10;
+	}
+}
+
+[System.Serializable]
+public class NewAxleInfo {
+	public WheelCollider leftWheel;
+	public WheelCollider rightWheel;
+	public bool motor;
+	public bool steering;
+}

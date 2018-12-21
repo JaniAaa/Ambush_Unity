@@ -1,0 +1,32 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameControllerScript : MonoBehaviour {
+	private static GameControllerScript gameController;
+
+	public int enemyCount;
+	public GameObject enemy;
+	public GameObject[] enemyList;
+
+	// instantiating function for other scripts
+	public static GameControllerScript Instance() {
+		if (!gameController) {
+			gameController = (GameControllerScript)FindObjectOfType(typeof(GameControllerScript));
+		}
+		return gameController;
+	}
+
+	void Start () {
+		enemy = GameObject.Find("NewCar");  // manually setting one enemy for testing
+		if(enemy != null)
+			Debug.Log("Enemy assigned");
+
+		if (enemyList == null)
+			enemyList = GameObject.FindGameObjectsWithTag("Enemy");  // actual way of finding enemies
+	}
+
+	void Update () {
+		
+	}
+}

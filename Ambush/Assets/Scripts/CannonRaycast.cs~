@@ -1,0 +1,47 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CannonRaycast : MonoBehaviour {
+	public Transform barrel;
+	private GameObject enemyTarget;
+
+	public static GameControllerScript gameController;
+
+	void Start () {	
+		gameController = GameControllerScript.Instance ();
+		enemyTarget = gameController.enemy;
+		if(enemyTarget != null)
+			Debug.Log("Enemy target assigned");
+		transform.LookAt (enemyTarget.transform);
+	}
+
+	void Update () {
+		RaycastHit hit;
+
+		var heading = enemyTarget.transform.position - transform.position;
+		//var distance = heading.magnitude;
+		//var direction = heading / distance;
+		int layerMask = 1 << 9;
+		layerMask = ~layerMask;
+
+		Debug.DrawRay(barrel.position + new Vector3(0f, 0f, 0.5f), barrel.TransformDirection(Vector3.up) * 10, Color.blue); // straight check
+		Debug.DrawRay(barrel.position + new Vector3(0f, 0f, 0.5f), heading, Color.white); 		// to enemyTarget
+
+
+		if (Physics.Raycast(barrel.position + new Vector3(0f, 0f, 0.5f), barrel.TransformDirection(Vector3.up), out hit))
+		{
+			Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);  // straight hit
+			//Debug.Log(hit.distance);
+			transform.LookAt (enemyTarget.transform);
+		}
+		/*
+		if (Physics.SphereCast(transform.position, 2, transform.TransformDirection(Vector3.forward), out hit, 10))  // also SphereCastAll?
+		{
+			Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
+			//Debug.Log("Sphere Hit!");
+		}
+		*/
+
+	}
+}
